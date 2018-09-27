@@ -35,82 +35,55 @@ public class SampleController {
 
 	private ObservableList<String> obsList;
 	private ObservableList<String> obsList2;
-	private ObservableList<String> bb;
-	String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};   
+
+	//String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};   
 	ArrayList<String> songlist = new ArrayList<String>();
-	
-	//String[] g = new String[100];
-	
-	// Make this part a datastructure that first stores,rearranges the list then displays it
-	//ArrayList<String> ar = new ArrayList<String>();
 
 	//Add a datastructure that would reorganize the string array then show the array
 	//next step is : whenever I click on any item in the list it shows
 	//much more detail in the detail list box
-	
-	///Details - list action
-	//name
-	//artist
-	//year
-	//genre
-		
+
 	
 	static int count = 0;
     @FXML
-    private String addedname(ActionEvent event)
+    private void addedname(ActionEvent event)
     {
-    	
-    	System.out.println("in addedname");
-    	//System.out.println( p2.getText()  );
-    	String abc = p2.getText();
+    	String abc = p1.getText() ;
     	if(!abc.isEmpty())songlist.add(abc);	
 	      if (!abc.isEmpty()) { 
 	    	 // THIS PART UPDATES THE LIST WHEN NEW STUFF ADDED
 	  		obsList = FXCollections.observableArrayList(songlist);
 			listView.setItems(obsList); 
 	    	  	    	   }     	
-    	return abc;
     }
     
     //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
+    // 
+    // THIS METHOD WORKS WHEN YOU CLICK THE ADD BUTTON
     @FXML protected void adding(ActionEvent event) 
     {
-
-    	System.out.println("pressed1");
     	p1.setVisible(true);
     	p2.setVisible(true);
-    	String abc = addedname(event);
-    	//System.out.println(abc);
-    	//bb.add(abc);
-    	if(abc.isEmpty())
-    	{
-    		System.out.println("yup its empty");
-    	}
-   	
-    	System.out.println(";)" + abc);
+    	addedname(event);
     }
-	
+
+    @FXML protected void deleting(ActionEvent event) 
+    {
+    	int del = listView.getSelectionModel().getSelectedIndex();
+    	songlist.remove(del);
+    	//THIS PART UPDATES THE LIST VIEW
+  		obsList = FXCollections.observableArrayList(songlist);
+		listView.setItems(obsList);     	
+    }    
+    
+    
 	public void start(Stage mainStage)
 	{   p1.setVisible(false); 
 		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
 
+		//Dont delete this part just yet
 		//obsList = FXCollections.observableArrayList(songlist);
 		//listView.setItems(obsList); 
-
-		/*
-		listView.getSelectionModel().selectedItemProperty().addListener(
-				new ChangeListener<String>()
-		{
-          public void changed(ObservableValue<? extends String> ov,
-              String old_val, String new_val) {
-            label.setText(new_val);
-            label.setTextFill(Color.web(new_val));
-          }
-        });
-		*/
-		
-		//FIND A WAY SOMEHOW WHEN YOU CLICK ON ANY SONG IN LIST IT DISPLAYS INFO OF IT
-		// IN DETAIL
 		
 		//THIS PART SHOWS WHATS IN THE DETAIL LIST
 		obsList2 = FXCollections.observableArrayList(
@@ -120,8 +93,7 @@ public class SampleController {
 				"Release date"
 				);
 		detail.setItems(obsList2);
-		// select the first item
-	      listView.getSelectionModel().select(0);
+	    listView.getSelectionModel().select(0);
 
 	      // set listener for the items
 	      //listView.getSelectionModel().selectedIndexProperty().addListener(
