@@ -2,22 +2,21 @@ package application;
 
 import java.awt.Button;
 import java.awt.TextComponent;
-import java.awt.TextField;
+import java.awt.*;
 import javafx.event.ActionEvent;
 import java.util.Optional;
 
 import javax.swing.event.ChangeListener;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
@@ -26,9 +25,22 @@ public class SampleController {
     @FXML private Text actiontarget;    
     //@FXML private  TextField p1;
     //@FXML TextField textField;
+    @FXML TextField p2; // DONT REMOVE THIS FUCKER
+    //final TextField p2 = new TextField();
+    
+    //final TextField p2 = new TextField();
+    @FXML
+    private void addedname(ActionEvent event)
+    {
+    	System.out.println("in addedname");
+    	System.out.println( p2.getText()  );
+    }
     
     //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
-    @FXML protected void sayHelloWorld(ActionEvent event) {
+    @FXML protected void adding(ActionEvent event) {
+    	p2.setVisible(true);
+    	addedname(event);
+    	System.out.println(";)");
     	//p1.SetVisible(True);
     	/*
     	Alert alert = new Alert(AlertType.INFORMATION);
@@ -47,6 +59,9 @@ public class SampleController {
 	private ObservableList<String> obsList2;
 
 	//String[] g = new String[100];
+	
+	// Make this part a datastructure that first stores,rearranges the list then displays it
+	
 	String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};
 	//Add a datastructure that would reorganize the string array then show the array
 	//next step is : whenever I click on any item in the list it shows
@@ -60,7 +75,7 @@ public class SampleController {
 	
 	
 	public void start(Stage mainStage)
-	{    
+	{    p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
 
 		//THIS PART SHOWS WHATS IN THE DETAIL LIST
 		obsList = FXCollections.observableArrayList(g
