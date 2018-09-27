@@ -4,6 +4,8 @@ import java.awt.Button;
 import java.awt.TextComponent;
 import java.awt.*;
 import javafx.event.ActionEvent;
+
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.swing.event.ChangeListener;
@@ -26,43 +28,22 @@ public class SampleController {
     //@FXML private  TextField p1;
     //@FXML TextField textField;
     @FXML TextField p2; // DONT REMOVE THIS FUCKER
-    //final TextField p2 = new TextField();
-    
-    //final TextField p2 = new TextField();
-    @FXML
-    private void addedname(ActionEvent event)
-    {
-    	System.out.println("in addedname");
-    	System.out.println( p2.getText()  );
-    }
-    
-    //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
-    @FXML protected void adding(ActionEvent event) {
-    	p2.setVisible(true);
-    	addedname(event);
-    	System.out.println(";)");
-    	//p1.SetVisible(True);
-    	/*
-    	Alert alert = new Alert(AlertType.INFORMATION);
-    	alert.setTitle("Information Dialog");
-    	alert.setHeaderText("Look, an Information Dialog");
-    	alert.setContentText("I have a great message for you!");
-    	alert.showAndWait();
-    	*/
-    	//System.out.println("hello world");
-    	}
+    @FXML TextField p1;
 
 	@FXML ListView<String> listView;
 	@FXML ListView<String> detail;
 
 	private ObservableList<String> obsList;
 	private ObservableList<String> obsList2;
-
+	private ObservableList<String> bb;
+	String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};   
+	ArrayList<String> songlist = new ArrayList<String>();
+	
 	//String[] g = new String[100];
 	
 	// Make this part a datastructure that first stores,rearranges the list then displays it
-	
-	String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};
+	//ArrayList<String> ar = new ArrayList<String>();
+
 	//Add a datastructure that would reorganize the string array then show the array
 	//next step is : whenever I click on any item in the list it shows
 	//much more detail in the detail list box
@@ -72,16 +53,50 @@ public class SampleController {
 	//artist
 	//year
 	//genre
+		
 	
+	static int count = 0;
+    @FXML
+    private String addedname(ActionEvent event)
+    {
+    	
+    	System.out.println("in addedname");
+    	//System.out.println( p2.getText()  );
+    	String abc = p2.getText();
+    	if(!abc.isEmpty())songlist.add(abc);	
+	      if (!abc.isEmpty()) { 
+	    	 // THIS PART UPDATES THE LIST WHEN NEW STUFF ADDED
+	  		obsList = FXCollections.observableArrayList(songlist);
+			listView.setItems(obsList); 
+	    	  	    	   }     	
+    	return abc;
+    }
+    
+    //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
+    @FXML protected void adding(ActionEvent event) 
+    {
+
+    	System.out.println("pressed1");
+    	p1.setVisible(true);
+    	p2.setVisible(true);
+    	String abc = addedname(event);
+    	//System.out.println(abc);
+    	//bb.add(abc);
+    	if(abc.isEmpty())
+    	{
+    		System.out.println("yup its empty");
+    	}
+   	
+    	System.out.println(";)" + abc);
+    }
 	
 	public void start(Stage mainStage)
-	{    p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
+	{   p1.setVisible(false); 
+		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
 
-		//THIS PART SHOWS WHATS IN THE DETAIL LIST
-		obsList = FXCollections.observableArrayList(g
-				);
-		listView.setItems(obsList); 
-		
+		//obsList = FXCollections.observableArrayList(songlist);
+		//listView.setItems(obsList); 
+
 		/*
 		listView.getSelectionModel().selectedItemProperty().addListener(
 				new ChangeListener<String>()
