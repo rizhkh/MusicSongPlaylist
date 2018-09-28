@@ -24,6 +24,8 @@ import javafx.scene.control.*;
 
 public class SampleController {
 	
+	static int check=0;
+	
     @FXML private Text actiontarget;    
     //@FXML private  TextField p1;
     //@FXML TextField textField;
@@ -48,7 +50,18 @@ public class SampleController {
     @FXML
     private void addedname(ActionEvent event)
     {
-    	String abc = p1.getText() ;
+    	String abc =  p1.getText();
+    	String artist = p2.getText();
+    	if( !abc.isEmpty() )
+    	{
+    	abc = p1.getText() + "-" + p2.getText();
+    	}
+    	
+    	if( !abc.isEmpty() && artist.isEmpty() )
+    	{
+    	abc = p1.getText();
+    	}    	
+    	
     	if(!abc.isEmpty())songlist.add(abc);	
 	      if (!abc.isEmpty()) { 
 	    	 // THIS PART UPDATES THE LIST WHEN NEW STUFF ADDED
@@ -62,6 +75,8 @@ public class SampleController {
     // THIS METHOD WORKS WHEN YOU CLICK THE ADD BUTTON
     @FXML protected void adding(ActionEvent event) 
     {
+    	check++;
+    	
     	p1.setVisible(true);
     	p2.setVisible(true);
     	addedname(event);
@@ -94,61 +109,5 @@ public class SampleController {
 				);
 		detail.setItems(obsList2);
 	    listView.getSelectionModel().select(0);
-
-	      // set listener for the items
-	      //listView.getSelectionModel().selectedIndexProperty().addListener(
-	      //(obs, oldVal, newVal)->showItemInputDialog(mainStage));
-
-	
 	}
-/*	
-	private void showItem(Stage mainStage) {                
-	      Alert alert = 
-	         new Alert(AlertType.INFORMATION);
-	      //alert.initModality(Modality.NONE);
-	      alert.initOwner(mainStage);
-	      alert.setTitle("List Item");
-	      alert.setHeaderText(
-	           "Selected list item properties");
-
-	      String content = "Index: " + 
-	          listView.getSelectionModel()
-	                   .getSelectedIndex() + 
-	          "\nValue: " + 
-	          listView.getSelectionModel()
-	                   .getSelectedItem();
-
-	          alert.setContentText(content);
-	          alert.showAndWait();
-	          //System.out.println("not blocking");
-	   }
-	
-	private void showItemInputDialog(Stage mainStage) {                
-	      String item = listView.getSelectionModel().getSelectedItem();
-	      int index = listView.getSelectionModel().getSelectedIndex();
-
-	      TextInputDialog dialog = new TextInputDialog(item);
-	      dialog.initOwner(mainStage); dialog.setTitle("List Item");
-	      dialog.setHeaderText("Selected Item (Index: " + index + ")");
-	      dialog.setContentText("Enter name: ");
-
-	      Optional<String> result = dialog.showAndWait();
-	      if (result.isPresent()) { obsList.set(index, result.get()); }
-	   }
-*/
-	/*
-	public void add(ActionEvent e)
-	{
-		//Button a = (Button)a.getSource();
-		if(Button==ad1)
-		{
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("z");
-			alert.setHeaderText("Information Alert");
-			String s ="This is an example of JavaFX 8 Dialogs... ";
-			alert.setContentText(s);
-			alert.show();	
-		}
-	}
-	*/
 }
