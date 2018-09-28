@@ -1,20 +1,12 @@
 package application;
 
 import javafx.event.ActionEvent;
-
 import java.util.ArrayList;
-
-
-
 import javafx.scene.control.TextField;
-
-import com.sun.glass.events.MouseEvent;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
@@ -40,7 +32,7 @@ public class SampleController {
 	//String[] g = {"hey","hey","hey","hey","hey","hey","hey","hey"};   
 	ArrayList<String> songlist = new ArrayList<String>();
 	//HashMap<Integer, String> songdetail = new HashMap<>(); // Integer is the index of the name
-	String[][] songdetail = new String [100][4];
+	String[][] songdetail = new String [100][5];
 	
 	//Add a datastructure that would reorganize the string array then show the array
 	//next step is : whenever I click on any item in the list it shows
@@ -68,24 +60,6 @@ public class SampleController {
     	if(!abc.isEmpty())
     	{
     		songlist.add(abc);	
-    		/*
-    		int id = songlist.indexOf(abc);
-    		String z = new Integer(id).toString();
-    		songdetail[id][0]=abc;
-    		songdetail[id][1]=p2.getText();
-    		songdetail[id][2]=p3.getText();
-    		songdetail[id][3]=p4.getText();
-   
-    		//make this a separate method
-    		//This part basically updates the detail list window with info of details added
-    		obsList2 = FXCollections.observableArrayList(
-    				abc,
-    				songdetail[id][1],
-    				songdetail[id][2],
-    				songdetail[id][3]
-    				);
-    		detail.setItems(obsList2);   
-    		*/
     		detailadd(abc) ; 
     	}
 	      if (!abc.isEmpty()) 
@@ -94,7 +68,7 @@ public class SampleController {
 	    	 // THIS PART UPDATES THE LIST WHEN NEW STUFF ADDED
 	  		obsList = FXCollections.observableArrayList(songlist);
 			listView.setItems(obsList); 
-			listView.getSelectionModel().select(count);
+			//listView.getSelectionModel().select(count);
 			
 			detailadd(abc) ; 
 			
@@ -107,7 +81,6 @@ public class SampleController {
 	{
 	
 		int id = songlist.indexOf(abc);
-		String z = new Integer(id).toString();
 		songdetail[id][0]=abc;
 		songdetail[id][1]=p2.getText();
 		songdetail[id][2]=p3.getText();
@@ -124,22 +97,6 @@ public class SampleController {
 		detail.setItems(obsList2);    	
 	}
     
-    public void iclicker(Stage mainStage)
-    {
-    	System.out.println("IN THE ICLICKER METHOD");
-    	String selectedsong = listView.getSelectionModel().getSelectedItem(); 
-		int id = songlist.indexOf(selectedsong);
-		//make this a separate method
-		obsList2 = FXCollections.observableArrayList(
-				songdetail[id][0],
-				songdetail[id][1],
-				songdetail[id][2],
-				songdetail[id][3]
-				);    	
-		detail.setItems(obsList2); 		
-    }
-
-    
     //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
     // 
     // THIS METHOD WORKS WHEN YOU CLICK THE ADD BUTTON
@@ -152,6 +109,7 @@ public class SampleController {
     	p3.setVisible(true);
     	p4.setVisible(true);
     	addedname(event);
+    	System.out.println(count + " " + songlist);
     }
 
     
@@ -186,28 +144,48 @@ public class SampleController {
 				);
 		detail.setItems(obsList);
 		detail.setItems(obsList2);
+		
+
+		//if(count>0) //items in the arraylist that will be shown in the listview
+		//{
 	    listView.getSelectionModel().select(0); 
-	    System.out.println(":)");
+	    
+	    updater(mainStage);
+
+		//}
 	}
 
-	public void selected(Stage mainStage) {                
+	private void updater(Stage mainStage) {  
+	      listView.getSelectionModel().selectedIndexProperty().addListener(
+		           (obs, oldVal, newVal) -> selected(mainStage));	    
+	}
+	
+	
+	//THIS METHOD DISPLAYS DETAILS OF SELECTED SONG
+	private void selected(Stage mainStage) {  
+
 	      //String item = listView.getSelectionModel().getSelectedItem();
-		 Alert alert = 
-		         new Alert(AlertType.INFORMATION);
-		      //alert.initModality(Modality.NONE);
-		      alert.initOwner(mainStage);
-		      alert.setTitle("List Item");
-		      alert.setHeaderText(
-		           "Selected list item properties");
+		int id=  listView.getSelectionModel().getSelectedIndex() ;
+		System.out.println("$ : " + id);
 
-		      String content = "Index: " + 
-		          listView.getSelectionModel()
-		                   .getSelectedIndex() + 
-		          "\nValue: " + 
-		          listView.getSelectionModel()
-		                   .getSelectedItem();
+		System.out.println(songdetail[id][0]);
+		System.out.println(songdetail[id][1]);
+		System.out.println(songdetail[id][2]);
+		System.out.println(songdetail[id][3]);
 
-		          alert.setContentText(content);
+		obsList2=null;
+		if(songlist.size()>=2)
+		{
+		obsList2 = FXCollections.observableArrayList(
+				songdetail[id][0],
+				songdetail[id][1],
+				songdetail[id][2],
+				songdetail[id][3]
+				);
+		detail.setItems(obsList2);
+		}
 		          //System.out.println("not blocking");
-	   }
+	}
+
+
 }
