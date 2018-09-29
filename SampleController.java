@@ -155,7 +155,7 @@ static int editCheck=0;
     	int id = listView.getSelectionModel().getSelectedIndex();
     	
 
-    	if(!p1.getText().isEmpty())
+    	if(!p1.getText().isEmpty() || !p2.getText().isEmpty())
     	{
   
       	  Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -163,17 +163,36 @@ static int editCheck=0;
           alert.setHeaderText("Are you sure want to edit this song?");
 
           Optional<ButtonType> option = alert.showAndWait();
-          
+          String abc = "";
           if (option.get() == ButtonType.OK) 
           {     	
-    	String abc = p1.getText();
-    	System.out.println(abc);
-    	songlist.set(id, abc);
-    	songdetail[id][0]=abc;
-    	System.out.println(songlist);
-  		obsList = FXCollections.observableArrayList(songlist);
-		listView.setItems(obsList); 
-    	}
+	    	abc = p1.getText();
+	    	System.out.println(abc);
+	    	songlist.set(id, abc);
+	    	songdetail[id][0]=abc;
+	    	System.out.println(songlist);
+	  		obsList = FXCollections.observableArrayList(songlist);
+			listView.setItems(obsList); 
+			
+			if(!p2.getText().isEmpty())
+			{
+				abc = p2.getText();
+				songdetail[id][1]=abc;
+			}
+			
+			if(!p3.getText().isEmpty())
+			{
+				abc = p3.getText();
+				songdetail[id][2]=abc;
+			}			
+
+			if(!p4.getText().isEmpty())
+			{
+				abc = p4.getText();
+				songdetail[id][3]=abc;
+			}				
+			
+          }
     	}
     	
     }
@@ -429,6 +448,4 @@ static int editCheck=0;
 		
 		          //System.out.println("not blocking");
 	}
-
-
 }
