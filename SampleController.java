@@ -30,8 +30,12 @@ public class SampleController {
     @FXML TextField p2; // DONT REMOVE THIS FUCKER
     @FXML TextField p1;
     @FXML TextField p3;
-    @FXML TextField p4;    
-
+    @FXML TextField p4;
+    @FXML Label l1;        
+    @FXML Label l2;   
+    @FXML Label l3;       
+    
+    
 	@FXML ListView<String> listView;
 	@FXML ListView<String> detail;
 
@@ -129,7 +133,8 @@ public class SampleController {
     //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
     // 
     // THIS METHOD WORKS WHEN YOU CLICK THE ADD BUTTON
-    @FXML protected void adding(ActionEvent event) 
+ 
+	@FXML protected void adding(ActionEvent event) 
     {
     	check++;
     	p1.setVisible(true);
@@ -140,6 +145,43 @@ public class SampleController {
     	System.out.println(count + " " + songlist);
     }
 
+static int editCheck=0;	
+	
+    @FXML protected void editing(ActionEvent event) 
+    {
+      	l1.setVisible(true);
+    	l2.setVisible(true);
+    	l3.setVisible(true);
+    	System.out.println(listView.getSelectionModel().getSelectedIndex());
+
+    	int id = listView.getSelectionModel().getSelectedIndex();
+    	
+
+    	if(!p1.getText().isEmpty())
+    	{
+  
+      	  Alert alert = new Alert(AlertType.CONFIRMATION);
+          alert.setTitle("Remove");
+          alert.setHeaderText("Are you sure want to edit this song?");
+
+          Optional<ButtonType> option = alert.showAndWait();
+          
+          if (option.get() == ButtonType.OK) 
+          {     	
+    	String abc = p1.getText();
+    	System.out.println(abc);
+    	songlist.set(id, abc);
+    	songdetail[id][0]=abc;
+    	System.out.println(songlist);
+  		obsList = FXCollections.observableArrayList(songlist);
+		listView.setItems(obsList); 
+    	}
+    	}
+    	
+    }
+	
+	
+	
     public void errorhandlerfordelete(Stage mainStage)
     {
     	// this.mainStage = mainStage;
@@ -264,6 +306,11 @@ public class SampleController {
 		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
     	p3.setVisible(false);
     	p4.setVisible(false);
+      	l1.setVisible(false);
+    	l2.setVisible(false);
+    	l3.setVisible(false);
+    	
+    	
     	
     	this.secondaryStage = mainStage;
     	
@@ -385,5 +432,7 @@ public class SampleController {
 		
 		          //System.out.println("not blocking");
 	}
+	
+
 
 }
