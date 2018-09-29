@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="464.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="481.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -36,7 +36,7 @@
    <left>
       <AnchorPane prefHeight="442.0" prefWidth="145.0" BorderPane.alignment="CENTER">
          <children>
-            <Separator layoutX="146.0" orientation="VERTICAL" prefHeight="442.0" prefWidth="11.0" />
+            <Separator layoutX="146.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="11.0" />
             <BorderPane layoutX="14.0" layoutY="58.0">
                <center>
                  <Button mnemonicParsing="false" onAction="#adding" prefHeight="26.0" prefWidth="82.0" text="Add" />             
@@ -59,7 +59,7 @@
             <Label layoutX="72.0" layoutY="14.0" text="Details" />
             <ListView fx:id="detail" layoutX="3.0" layoutY="35.0" prefHeight="214.0" prefWidth="162.0" />
             <Button id="del1" fx:id="del1" layoutX="43.0" layoutY="389.0" mnemonicParsing="false" onAction="#deleting" prefHeight="26.0" prefWidth="82.0" text="Delete" />
-            <Button fx:id="ed1" layoutX="43.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Edit" />
+            <Button fx:id="ed1" layoutX="43.0" layoutY="355.0" mnemonicParsing="false" onAction="#editing" prefHeight="26.0" prefWidth="82.0" text="Edit" />
          </children>
       </AnchorPane>
    </right>
@@ -71,5 +71,7 @@
          </children>
       </AnchorPane>
    </center>
+   <bottom>
+      <Label prefHeight="18.0" fx:id="l1" prefWidth="590.0" text="*Enter new information then press 'edit' button on the left and confirm to make changes " BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
- 
