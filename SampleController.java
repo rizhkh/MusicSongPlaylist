@@ -32,8 +32,7 @@ public class SampleController {
     @FXML TextField p3;
     @FXML TextField p4;
     @FXML Label l1;        
-    @FXML Label l2;   
-    @FXML Label l3;       
+  
     
     
 	@FXML ListView<String> listView;
@@ -150,8 +149,7 @@ static int editCheck=0;
     @FXML protected void editing(ActionEvent event) 
     {
       	l1.setVisible(true);
-    	l2.setVisible(true);
-    	l3.setVisible(true);
+
     	System.out.println(listView.getSelectionModel().getSelectedIndex());
 
     	int id = listView.getSelectionModel().getSelectedIndex();
@@ -307,8 +305,7 @@ static int editCheck=0;
     	p3.setVisible(false);
     	p4.setVisible(false);
       	l1.setVisible(false);
-    	l2.setVisible(false);
-    	l3.setVisible(false);
+
     	
     	
     	
@@ -432,7 +429,6 @@ static int editCheck=0;
 		
 		          //System.out.println("not blocking");
 	}
-	
 
 
 }
