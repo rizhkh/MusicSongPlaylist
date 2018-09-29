@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import javafx.scene.control.TextField;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 
 public class SampleController {
 	
@@ -45,11 +47,8 @@ public class SampleController {
 	ArrayList<String> songlist = new ArrayList<String>();
 	//HashMap<Integer, String> songdetail = new HashMap<>(); // Integer is the index of the name
 	String[][] songdetail = new String [100][5];
-	
-	//Add a datastructure that would reorganize the string array then show the array
-	//next step is : whenever I click on any item in the list it shows
-	//much more detail in the detail list box
 
+	public Stage secondaryStage;
 	
 		
 	static int count = 0;
@@ -74,8 +73,10 @@ public class SampleController {
     		songlist.add(abc);
 				
     		try {
+    			
 					makeaplaylist(bufferedWriter,abc);
-				} catch (IOException e) {
+				
+    		} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -138,21 +139,63 @@ public class SampleController {
     	System.out.println(count + " " + songlist);
     }
 
+    public void errorhandlerfordelete(Stage mainStage)
+    {
+    	// this.mainStage = mainStage;
+    	mainStage = secondaryStage;
+    }
     
     @FXML protected void deleting(ActionEvent event) 
     {
-    	int del = listView.getSelectionModel().getSelectedIndex();
-    	
-    	if(del>=0)
-    	{
-    	songlist.remove(del);
-    	//THIS PART UPDATES THE LIST VIEW
-  		obsList = FXCollections.observableArrayList(songlist);
-		listView.setItems(obsList);    
-		count--;
-		//listView.getSelectionModel().select(count);
-		//WHEN SONG IS DELETED SELECTED CURSOR MOVES UP
-    	}
+  
+    	  Alert alert = new Alert(AlertType.CONFIRMATION);
+          alert.setTitle("Remove");
+          alert.setHeaderText("Are you sure want to delete this song?");
+
+     
+          // option != null.
+          Optional<ButtonType> option = alert.showAndWait();
+     
+          /*
+          if (option.get() == null) {
+             this.label.setText("No selection!");
+          } 
+          else
+          
+          if (option.get() == ButtonType.OK) 
+          {
+             this.label.setText("File deleted!");
+          } 
+          else if (option.get() == ButtonType.CANCEL) 
+          {
+             this.label.setText("Cancelled!");
+          } 
+          else {
+             this.label.setText("-");
+          }  
+          */
+          
+          if (option.get() == ButtonType.OK) 
+          { 	
+        	  //errorhandlerfordelete(secondaryStage);
+		    	int del = listView.getSelectionModel().getSelectedIndex();
+		    	
+		    	if(del>=0)
+		    	{
+		    	songlist.remove(del);
+		    	//THIS PART UPDATES THE LIST VIEW
+		  		obsList = FXCollections.observableArrayList(songlist);
+				listView.setItems(obsList);    
+				count--;
+				listView.getSelectionModel().select(count);
+				//WHEN SONG IS DELETED SELECTED CURSOR MOVES UP
+		    	}
+          }
+          
+          else if (option.get() == ButtonType.CANCEL) 
+          {
+          
+          }
     }    
     
     public void makeaplaylist(BufferedWriter bufferedWriter,String abc) throws IOException
@@ -163,12 +206,14 @@ public class SampleController {
     	
     	System.out.println("INSIDE makeaplaylist()");
     	try {
-        	bufferedWriter.write(abc);
+        	bufferedWriter.write(abc + ":" + p2.getText() 
+        	+ ":" + p3.getText() + ":" + p4.getText()
+        	);
 			bufferedWriter.newLine();
 			System.out.println("should be there" + abc);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}	
     	//bufferedWriter.close();
     	//fileWriter.close();
@@ -179,27 +224,58 @@ public class SampleController {
     {
         file = new File("stuff2.txt"); 
         Scanner readerPlaylist = new Scanner(file);       	
-    	
+        int index = 0;
+        int id=0;
+        String first = "";
         while( readerPlaylist.hasNextLine() )
         {
-        	//System.out.println( "$ " + readerPlaylist.nextLine() );
-        	String abc = readerPlaylist.nextLine();
-    		songlist.add(abc);	
-      		obsList = FXCollections.observableArrayList(songlist);
-    		listView.setItems(obsList);        	
+        	Scanner rp2 = new Scanner( readerPlaylist.nextLine() ); 
+        	rp2.useDelimiter(":");
+        	while( rp2.hasNext() )
+        	{
+        		String abc = rp2.next();	
+        		if(index==0)
+        		{
+	            	songlist.add(abc);
+	            	first = abc;
+	          		obsList = FXCollections.observableArrayList(songlist);
+	        		listView.setItems(obsList);  
+	        		id = songlist.indexOf(abc);
+	        		
+	        		//THIS LITTLE THING IS JUST TO STORE NAME IN THE NAME FIELD
+	        		String abc2 = "";
+	        		int j=0;
+	        		
+        		while(abc.charAt(j)!='-')
+        		{
+        			abc2 = abc2+ abc.charAt(j);
+        			j++;
+        		}
+        		
+        		songdetail[id][0]=abc2;
+        		}
  
-    		// JUST SAVE THE DETAILS IN THE FILE AND READ THOSE
-    		//int id = songlist.indexOf(abc);
-    		//songdetail[id][0]=abc;
-    		//songdetail[id][1]=p2.getText();
-    		//songdetail[id][2]=p3.getText();
-    		//songdetail[id][3]=p4.getText();        
-    		
+        		if(index==1)
+        		{
+        			songdetail[id][1]=abc;
+        		}
+        		
+        		if(index==2)
+        		{
+        			songdetail[id][2]=abc;
+        		}
+        		
+        		if(index==3)
+        		{
+        			songdetail[id][3]=abc;
+        		}
+        		index++;
+        	}
+        	index = 0;
+            rp2.close();
         }
-    	
-		//songlist.add(abc);	
-  		//obsList = FXCollections.observableArrayList(songlist);
-		//listView.setItems(obsList); 
+        //rp2.close();
+        readerPlaylist.close();
     }
     
 	public void start(Stage mainStage) throws IOException
@@ -207,6 +283,8 @@ public class SampleController {
 		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
     	p3.setVisible(false);
     	p4.setVisible(false);
+    	
+    	this.secondaryStage = mainStage;
     	
     	fileWriter = new FileWriter(file, true );  
         bufferedWriter = new BufferedWriter(fileWriter);
@@ -219,8 +297,7 @@ public class SampleController {
         		readPlaylist();
         	}
         }
-        
-    	
+
 		obsList2 = FXCollections.observableArrayList(
 				"Name of the song",
 				"Name of the Artist",
@@ -237,15 +314,13 @@ public class SampleController {
 	    
 	    updater(mainStage);
 	    
-    	//bufferedWriter.close();
-    	//fileWriter.close();
-		//}
-	    
 	    //To terminate the application correctly
 	    mainStage.setOnCloseRequest(event -> pgmclosed());
+	    
 	    //mainStage.setOnCloseRequest();
 	    //ActionEvent event = null ;
 	    //mainStage.setOnCloseRequest((EventHandler<WindowEvent>) event -> pgmclosed());
+	    
 	}
 
 	//*********************************8
@@ -275,6 +350,10 @@ public class SampleController {
 
 	      //String item = listView.getSelectionModel().getSelectedItem();
 		int id=  listView.getSelectionModel().getSelectedIndex() ;
+		
+
+		
+		
 		System.out.println("$ : " + id);
 
 		System.out.println(songdetail[id][0]);
@@ -282,18 +361,7 @@ public class SampleController {
 		System.out.println(songdetail[id][2]);
 		System.out.println(songdetail[id][3]);
 
-		/*
-		if(songlist.size()==0)
-		{
-			obsList2 = FXCollections.observableArrayList(
-					"Name of the song",
-					"Name of the Artist",
-					"Album name",
-					"Release date"
-					);
-			detail.setItems(obsList2);			
-		}
-		*/
+//THERE'S AN ERROR COMING THROUGH WHEN STAGES ARE CHANGED
 		
 		//obsList2=null;
 		if(songlist.size()>=2)
@@ -308,6 +376,4 @@ public class SampleController {
 		}
 		          //System.out.println("not blocking");
 	}
-
-
 }
