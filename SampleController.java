@@ -1,6 +1,12 @@
 package application;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.scene.control.TextField;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
@@ -8,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.control.*;
 
 public class SampleController {
@@ -25,6 +32,10 @@ public class SampleController {
 	@FXML ListView<String> listView;
 	@FXML ListView<String> detail;
 
+static File file = new File("stuff2.txt");	
+static 	FileWriter fileWriter ;  
+static   BufferedWriter bufferedWriter;
+	
 	private ObservableList<String> obsList;
 	private ObservableList<String> obsList2;
 	int[][] code = new int[50][4];
@@ -59,7 +70,15 @@ public class SampleController {
     	
     	if(!abc.isEmpty())
     	{
-    		songlist.add(abc);	
+    		songlist.add(abc);
+				try {
+					makeaplaylist(bufferedWriter,abc);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+    		
     		detailadd(abc) ; 
     	}
 	      if (!abc.isEmpty()) 
@@ -68,6 +87,9 @@ public class SampleController {
 	    	 // THIS PART UPDATES THE LIST WHEN NEW STUFF ADDED
 	  		obsList = FXCollections.observableArrayList(songlist);
 			listView.setItems(obsList); 
+			
+			//THIS PART IS TAKEN OUT TEMPORARILY AS IT WAS CAUSING PROBLEM DISPLAYING DETAIL LIST
+			//MAKE THIS TO THE NEWEST ADDED SONG WHEN ALPHABETICALLY SELECTED
 			//listView.getSelectionModel().select(count);
 			
 			detailadd(abc) ; 
@@ -80,6 +102,7 @@ public class SampleController {
 	public void detailadd(String abc)
 	{
 	
+		//ADD A CONDITION THAT MAKES SURE P1 OR P2 ARE NOT EMPTY
 		int id = songlist.indexOf(abc);
 		songdetail[id][0]=abc;
 		songdetail[id][1]=p2.getText();
@@ -129,12 +152,34 @@ public class SampleController {
     	}
     }    
     
+    public void makeaplaylist(BufferedWriter bufferedWriter,String abc) throws IOException
+    {
+    	
+    	//fileWriter = new FileWriter("stuff2.txt", true );  
+        //bufferedWriter = new BufferedWriter(fileWriter);
+    	
+    	System.out.println("INSIDE makeaplaylist()");
+    	try {
+        	bufferedWriter.write(abc);
+			bufferedWriter.newLine();
+			System.out.println("should be there" + abc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+    	//bufferedWriter.close();
+    	//fileWriter.close();
+    }
    
-	public void start(Stage mainStage)
+	public void start(Stage mainStage) throws IOException
 	{   p1.setVisible(false); 
 		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
     	p3.setVisible(false);
     	p4.setVisible(false);
+    	
+    	fileWriter = new FileWriter(file, true );  
+        bufferedWriter = new BufferedWriter(fileWriter);
+  
     	
 		obsList2 = FXCollections.observableArrayList(
 				"Name of the song",
@@ -151,10 +196,29 @@ public class SampleController {
 	    listView.getSelectionModel().select(0); 
 	    
 	    updater(mainStage);
-
+	    
+    	//bufferedWriter.close();
+    	//fileWriter.close();
 		//}
+	    mainStage.setOnCloseRequest(event -> pgmclosed());
+	    //mainStage.setOnCloseRequest();
+	    //ActionEvent event = null ;
+	    //mainStage.setOnCloseRequest((EventHandler<WindowEvent>) event -> pgmclosed());
 	}
 
+	public void pgmclosed()
+	{
+		try {
+			bufferedWriter.close();
+	    	fileWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.exit(0);
+	}
+	
 	private void updater(Stage mainStage) {  
 	      listView.getSelectionModel().selectedIndexProperty().addListener(
 		           (obs, oldVal, newVal) -> selected(mainStage));	    
@@ -173,7 +237,20 @@ public class SampleController {
 		System.out.println(songdetail[id][2]);
 		System.out.println(songdetail[id][3]);
 
-		obsList2=null;
+		/*
+		if(songlist.size()==0)
+		{
+			obsList2 = FXCollections.observableArrayList(
+					"Name of the song",
+					"Name of the Artist",
+					"Album name",
+					"Release date"
+					);
+			detail.setItems(obsList2);			
+		}
+		*/
+		
+		//obsList2=null;
 		if(songlist.size()>=2)
 		{
 		obsList2 = FXCollections.observableArrayList(
@@ -186,7 +263,4 @@ public class SampleController {
 		}
 		          //System.out.println("not blocking");
 	}
-	
-
-
 }
