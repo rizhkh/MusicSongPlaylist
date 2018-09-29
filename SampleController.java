@@ -5,9 +5,12 @@ import javafx.event.EventHandler;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import javafx.scene.control.TextField;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import javafx.collections.FXCollections;
@@ -22,8 +25,6 @@ public class SampleController {
 	static int check=0;
 	
     @FXML private Text actiontarget;    
-    //@FXML private  TextField p1;
-    //@FXML TextField textField;
     @FXML TextField p2; // DONT REMOVE THIS FUCKER
     @FXML TextField p1;
     @FXML TextField p3;
@@ -32,9 +33,9 @@ public class SampleController {
 	@FXML ListView<String> listView;
 	@FXML ListView<String> detail;
 
-static File file = new File("stuff2.txt");	
-static 	FileWriter fileWriter ;  
-static   BufferedWriter bufferedWriter;
+	static File file = new File("stuff2.txt");	
+	static 	FileWriter fileWriter ;  
+	static   BufferedWriter bufferedWriter;
 	
 	private ObservableList<String> obsList;
 	private ObservableList<String> obsList2;
@@ -71,7 +72,8 @@ static   BufferedWriter bufferedWriter;
     	if(!abc.isEmpty())
     	{
     		songlist.add(abc);
-				try {
+				
+    		try {
 					makeaplaylist(bufferedWriter,abc);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -98,6 +100,7 @@ static   BufferedWriter bufferedWriter;
 			count++;
 	      }     	
     }
+    
   
 	public void detailadd(String abc)
 	{
@@ -171,6 +174,22 @@ static   BufferedWriter bufferedWriter;
     	//fileWriter.close();
     }
    
+    public void readPlaylist() throws FileNotFoundException
+    {
+    	System.out.println( " # Inside readPlaylist() " );
+        file = new File("stuff2.txt"); 
+        Scanner readerPlaylist = new Scanner(file);       	
+    	
+        while( readerPlaylist.hasNextLine() )
+        {
+        	System.out.println( "$ " + readerPlaylist.nextLine() );
+        }
+    	
+		//songlist.add(abc);	
+  		//obsList = FXCollections.observableArrayList(songlist);
+		//listView.setItems(obsList); 
+    }
+    
 	public void start(Stage mainStage) throws IOException
 	{   p1.setVisible(false); 
 		p2.setVisible(false); // So WHEN ADD IS CLICKED FORMS SHOW UP YEEHAA
@@ -180,6 +199,15 @@ static   BufferedWriter bufferedWriter;
     	fileWriter = new FileWriter(file, true );  
         bufferedWriter = new BufferedWriter(fileWriter);
   
+      
+        if(file.isFile())
+        {
+        	if(file.canRead())
+        	{
+        		readPlaylist();
+        	}
+        }
+        
     	
 		obsList2 = FXCollections.observableArrayList(
 				"Name of the song",
@@ -200,12 +228,17 @@ static   BufferedWriter bufferedWriter;
     	//bufferedWriter.close();
     	//fileWriter.close();
 		//}
+	    
+	    //To terminate the application correctly
 	    mainStage.setOnCloseRequest(event -> pgmclosed());
 	    //mainStage.setOnCloseRequest();
 	    //ActionEvent event = null ;
 	    //mainStage.setOnCloseRequest((EventHandler<WindowEvent>) event -> pgmclosed());
 	}
 
+	//*********************************8
+	// Add JOptionPane pop dialog box here that confirms if you want to exit
+	//
 	public void pgmclosed()
 	{
 		try {
@@ -237,30 +270,5 @@ static   BufferedWriter bufferedWriter;
 		System.out.println(songdetail[id][2]);
 		System.out.println(songdetail[id][3]);
 
-		/*
-		if(songlist.size()==0)
-		{
-			obsList2 = FXCollections.observableArrayList(
-					"Name of the song",
-					"Name of the Artist",
-					"Album name",
-					"Release date"
-					);
-			detail.setItems(obsList2);			
-		}
-		*/
-		
-		//obsList2=null;
-		if(songlist.size()>=2)
-		{
-		obsList2 = FXCollections.observableArrayList(
-				songdetail[id][0],
-				songdetail[id][1],
-				songdetail[id][2],
-				songdetail[id][3]
-				);
-		detail.setItems(obsList2);
-		}
-		          //System.out.println("not blocking");
-	}
+
 }
