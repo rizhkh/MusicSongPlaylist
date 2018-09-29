@@ -93,7 +93,9 @@ public class SampleController {
 			
 			//THIS PART IS TAKEN OUT TEMPORARILY AS IT WAS CAUSING PROBLEM DISPLAYING DETAIL LIST
 			//MAKE THIS TO THE NEWEST ADDED SONG WHEN ALPHABETICALLY SELECTED
-			//listView.getSelectionModel().select(count);
+	
+			
+			listView.getSelectionModel().select(count);
 			
 			detailadd(abc) ; 
 			
@@ -130,7 +132,6 @@ public class SampleController {
     @FXML protected void adding(ActionEvent event) 
     {
     	check++;
-    	
     	p1.setVisible(true);
     	p2.setVisible(true);
     	p3.setVisible(true);
@@ -152,28 +153,7 @@ public class SampleController {
           alert.setTitle("Remove");
           alert.setHeaderText("Are you sure want to delete this song?");
 
-     
-          // option != null.
           Optional<ButtonType> option = alert.showAndWait();
-     
-          /*
-          if (option.get() == null) {
-             this.label.setText("No selection!");
-          } 
-          else
-          
-          if (option.get() == ButtonType.OK) 
-          {
-             this.label.setText("File deleted!");
-          } 
-          else if (option.get() == ButtonType.CANCEL) 
-          {
-             this.label.setText("Cancelled!");
-          } 
-          else {
-             this.label.setText("-");
-          }  
-          */
           
           if (option.get() == ButtonType.OK) 
           { 	
@@ -276,6 +256,7 @@ public class SampleController {
         }
         //rp2.close();
         readerPlaylist.close();
+        count = songlist.size(); // THIS IS FOR WHEN THE LIST IS READ AND INDEX COUNT IS SET
     }
     
 	public void start(Stage mainStage) throws IOException
@@ -351,19 +332,15 @@ public class SampleController {
 	      //String item = listView.getSelectionModel().getSelectedItem();
 		int id=  listView.getSelectionModel().getSelectedIndex() ;
 		
-
+		if(id<0) {
+		System.out.println("$$$$$$$$$$$$$$$$ : " + id);
+		id=count;
+		System.out.println("#@$#@$@#$ : " + id);
 		
-		
-		System.out.println("$ : " + id);
-
 		System.out.println(songdetail[id][0]);
 		System.out.println(songdetail[id][1]);
 		System.out.println(songdetail[id][2]);
-		System.out.println(songdetail[id][3]);
-
-//THERE'S AN ERROR COMING THROUGH WHEN STAGES ARE CHANGED
-		
-		//obsList2=null;
+		System.out.println(songdetail[id][3]);		
 		if(songlist.size()>=2)
 		{
 		obsList2 = FXCollections.observableArrayList(
@@ -373,7 +350,40 @@ public class SampleController {
 				songdetail[id][3]
 				);
 		detail.setItems(obsList2);
+		}		
+		
+		
 		}
+		
+		//If problem then delete ID>0 and also the select one
+		else if(id>=0)
+		{
+			//System.out.println("$ : " + id);
+	
+			//System.out.println(songdetail[id][0]);
+			//System.out.println(songdetail[id][1]);
+			//System.out.println(songdetail[id][2]);
+			//System.out.println(songdetail[id][3]);
+	
+	//THERE'S AN ERROR COMING THROUGH WHEN STAGES ARE CHANGED
+			
+			//obsList2=null;
+			if(songlist.size()>=2)
+			{
+			obsList2 = FXCollections.observableArrayList(
+					songdetail[id][0],
+					songdetail[id][1],
+					songdetail[id][2],
+					songdetail[id][3]
+					);
+			detail.setItems(obsList2);
+			}
+		}
+		
+		else
+		{System.out.println("$$$$zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz$$$$");}
+		
 		          //System.out.println("not blocking");
 	}
+
 }
