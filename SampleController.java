@@ -174,15 +174,27 @@ public class SampleController {
     	//fileWriter.close();
     }
    
+    //METHOD THAT READS THE PLAYLIST
     public void readPlaylist() throws FileNotFoundException
     {
-    	System.out.println( " # Inside readPlaylist() " );
         file = new File("stuff2.txt"); 
         Scanner readerPlaylist = new Scanner(file);       	
     	
         while( readerPlaylist.hasNextLine() )
         {
-        	System.out.println( "$ " + readerPlaylist.nextLine() );
+        	//System.out.println( "$ " + readerPlaylist.nextLine() );
+        	String abc = readerPlaylist.nextLine();
+    		songlist.add(abc);	
+      		obsList = FXCollections.observableArrayList(songlist);
+    		listView.setItems(obsList);        	
+ 
+    		// JUST SAVE THE DETAILS IN THE FILE AND READ THOSE
+    		//int id = songlist.indexOf(abc);
+    		//songdetail[id][0]=abc;
+    		//songdetail[id][1]=p2.getText();
+    		//songdetail[id][2]=p3.getText();
+    		//songdetail[id][3]=p4.getText();        
+    		
         }
     	
 		//songlist.add(abc);	
@@ -269,6 +281,33 @@ public class SampleController {
 		System.out.println(songdetail[id][1]);
 		System.out.println(songdetail[id][2]);
 		System.out.println(songdetail[id][3]);
+
+		/*
+		if(songlist.size()==0)
+		{
+			obsList2 = FXCollections.observableArrayList(
+					"Name of the song",
+					"Name of the Artist",
+					"Album name",
+					"Release date"
+					);
+			detail.setItems(obsList2);			
+		}
+		*/
+		
+		//obsList2=null;
+		if(songlist.size()>=2)
+		{
+		obsList2 = FXCollections.observableArrayList(
+				songdetail[id][0],
+				songdetail[id][1],
+				songdetail[id][2],
+				songdetail[id][3]
+				);
+		detail.setItems(obsList2);
+		}
+		          //System.out.println("not blocking");
+	}
 
 
 }
