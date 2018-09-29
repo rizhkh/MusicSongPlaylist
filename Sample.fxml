@@ -75,3 +75,4 @@
       <Label prefHeight="18.0" fx:id="l1" prefWidth="590.0" text="*Enter new information then press 'edit' button on the left and confirm to make changes " BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
+ 
