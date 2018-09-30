@@ -51,36 +51,25 @@ public class SampleController {
 		
 	static int count = 0;
 	
+	
+///////##########################################3
+/////
+	
+	//This method moves the array indexes to the right spots 
+	
     public void addingPositionchange(int id)
     {
-    	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);
-    	
-    	System.out.println( songlist.get(id) );
-    	System.out.println(songdetail[id][0] + ":$" +
-    			songdetail[id][1] + ":$" +
-    			songdetail[id][2] + ":$" +
-    			songdetail[id][3] + ":$" 
-    			);
-    	String temp="";
-    	String temp1="";
-    	String temp2="";
-    	String temp3="";
-    	for(int i=id; i<songlist.size(); i++)
-    	{
-    		System.out.println(songdetail[id][0] + " | " + songdetail[id+1][0]);
-    		/*
-    		temp= songdetail[id+1][0];
-    		temp1= songdetail[id+1][1];
-    		temp2= songdetail[id+1][2];
-    		temp3= songdetail[id+1][3];
-        	songdetail[id+1][0] = songdetail[id][0];
-        	songdetail[id+1][1] = songdetail[id][1];    	
-        	songdetail[id+1][2] = songdetail[id][2];      	
-        	songdetail[id+1][3] = songdetail[id][3];
-        	*/
 
-    	}
-    	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);    	
+    	for(int i=count; i>=id; i--)
+    	{
+    		songdetail[i+1][0] = songdetail[i][0];
+        	songdetail[i+1][1] = songdetail[i][1];    	
+        	songdetail[i+1][2] = songdetail[i][2];      	
+        	songdetail[i+1][3] = songdetail[i][3];
+    	} 
+    	
+  		obsList = FXCollections.observableArrayList(songlist);
+		listView.setItems(obsList);  	 	
     }
 	
 	
@@ -103,25 +92,31 @@ public class SampleController {
     	if(!abc.isEmpty())
     	{
     		/*
-    		if(songlist.contains(p1.getText() ))
+    		if(songlist.contains(p1.getText()) )
     		{
+    			int idforcheck = songlist.indexOf(p1.getText());
     			System.out.println("yes");
     			boolean check=false;
     			for(int i=0; i<songlist.size(); i++)
     			{
     				if(p2.getText()==songdetail[i][1]);
     				{
+    					System.out.println("true");
     					check=true;
     				}
     			}
     			
     			if(check==true)
     			{
+    				System.out.println("true2");
     			      Alert alert = new Alert(AlertType.INFORMATION);
     			 	      alert.setTitle("Already exist");
     			 	      alert.setHeaderText(
     			 	           "Duplicate found.Can't be added");
-    			 	          //System.out.println("not blocking");
+    			          Optional<ButtonType> option = alert.showAndWait();
+    			          
+    			          if (option.get() == ButtonType.OK) 
+    			          {   }  			 	      
     			}
     			
     			else
@@ -136,6 +131,7 @@ public class SampleController {
     		
     		else
     		{
+    			System.out.println("no");
     		songlist.add(abc);
     		Collections.sort(songlist);
     		int id2 = songlist.indexOf(abc);
@@ -143,11 +139,13 @@ public class SampleController {
     		detailadd(abc) ; 
     		}
     		*/
+    		
        		songlist.add(abc);
     		Collections.sort(songlist);
     		int id2 = songlist.indexOf(abc);
-    		//addingPositionchange(id2);
+    		addingPositionchange(id2);
     		detailadd(abc) ; 
+    		 
     	}
 	      if (!abc.isEmpty()) 
 	      { 
@@ -566,6 +564,5 @@ static int editCheck=0;
 		
 		          //System.out.println("not blocking");
 	}
-
-
+	
 }
