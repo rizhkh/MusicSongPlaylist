@@ -309,11 +309,18 @@ static int editCheck=0;
 	        		String abc2 = "";
 	        		int j=0;
 	        		
-	        		while(abc.charAt(j)!='-')
+	        		//THIS LITTLE SNIPPET ONLY CHECKS IF SONG HAS AN ARTIST
+	        		//IF DONT THEN GOES TO ELSE, ITS CHECKING FOR THE '-' THAT SEPARATES IT
+	        		if(!p2.getText().isEmpty())
 	        		{
-	        			abc2 = abc2+ abc.charAt(j);
-	        			j++;
+		        		while(abc.charAt(j)!='-')
+		        		{
+		        			abc2 = abc2+ abc.charAt(j);
+		        			j++;
+		        		}
 	        		}
+	        		else
+	        		{abc2=abc;}
 	        		
 	        		songdetail[id][0]=abc2;
         		}
@@ -475,6 +482,4 @@ static int editCheck=0;
 		
 		          //System.out.println("not blocking");
 	}
-
-
 }
