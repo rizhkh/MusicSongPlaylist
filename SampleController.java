@@ -91,21 +91,21 @@ public class SampleController {
     	
     	if(!abc.isEmpty())
     	{
-    		/*
+    		
     		if(songlist.contains(p1.getText()) )
     		{
-    			int idforcheck = songlist.indexOf(p1.getText());
     			System.out.println("yes");
+    			int idforcheck = songlist.indexOf(p1.getText());
     			boolean check=false;
-    			for(int i=0; i<songlist.size(); i++)
-    			{
-    				if(p2.getText()==songdetail[i][1]);
-    				{
-    					System.out.println("true");
-    					check=true;
-    				}
-    			}
     			
+    			String a = songdetail[idforcheck][1];
+    			String b = p2.getText();
+    			if( a.equals(b) )//a==b )
+    			{
+    				System.out.println("yesyes");
+    				check=true;
+    			}
+
     			if(check==true)
     			{
     				System.out.println("true2");
@@ -131,21 +131,22 @@ public class SampleController {
     		
     		else
     		{
-    			System.out.println("no");
-    		songlist.add(abc);
-    		Collections.sort(songlist);
-    		int id2 = songlist.indexOf(abc);
-    		//addingPositionchange(id2);
-    		detailadd(abc) ; 
+	    		System.out.println("no");
+	    		System.out.println( p1.getText() );
+	    		songlist.add(abc);
+	    		Collections.sort(songlist);
+	    		int id2 = songlist.indexOf(abc);
+	    		//addingPositionchange(id2);
+	    		detailadd(abc) ; 
     		}
-    		*/
     		
+    		/*
        		songlist.add(abc);
     		Collections.sort(songlist);
     		int id2 = songlist.indexOf(abc);
     		addingPositionchange(id2);
     		detailadd(abc) ; 
-    		 
+    		 */
     	}
 	      if (!abc.isEmpty()) 
 	      { 
@@ -564,5 +565,5 @@ static int editCheck=0;
 		
 		          //System.out.println("not blocking");
 	}
-	
+
 }
