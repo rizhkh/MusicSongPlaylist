@@ -91,8 +91,7 @@ public class SampleController {
     	
     	if(!abc.isEmpty())
     	{
-    		
-    		if(songlist.contains(p1.getText()) )
+    		if( songlist.contains(p1.getText()) )
     		{
     			System.out.println("yes");
     			int idforcheck = songlist.indexOf(p1.getText());
@@ -124,7 +123,7 @@ public class SampleController {
     	    		songlist.add(abc);
     	    		Collections.sort(songlist);
     	    		int id2 = songlist.indexOf(abc);
-    	    		//addingPositionchange(id2);
+    	    		addingPositionchange(id2);
     	    		detailadd(abc) ; 	
     			}
     		}
@@ -136,7 +135,7 @@ public class SampleController {
 	    		songlist.add(abc);
 	    		Collections.sort(songlist);
 	    		int id2 = songlist.indexOf(abc);
-	    		//addingPositionchange(id2);
+	    		addingPositionchange(id2);
 	    		detailadd(abc) ; 
     		}
     		
@@ -271,14 +270,24 @@ static int editCheck=0;
     public void datachangeAfterDelete(int id)
     {
     	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);
-    	
-    	for(int i=id; i<songlist.size(); i++)
+    	/*
+    	for(int i=songlist.size(); i>id; i++)
     	{
         	songdetail[id][0] = songdetail[id+1][0];
         	songdetail[id][1] = songdetail[id+1][1];    	
         	songdetail[id][2] = songdetail[id+1][2];      	
         	songdetail[id][2] = songdetail[id+1][2];     		
     	}
+    	*/
+    	
+    	for(int i=id; i<songlist.size(); i++)
+    	{
+        	songdetail[i][0] = songdetail[i+1][0];
+        	songdetail[i][1] = songdetail[i+1][1];    	
+        	songdetail[i][2] = songdetail[i+1][2];      	
+        	songdetail[i][2] = songdetail[i+1][2];     		
+    	}
+
     	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);    	
     }
     
@@ -305,6 +314,10 @@ static int editCheck=0;
 				listView.setItems(obsList);    
 				count--;
 				listView.getSelectionModel().select(del-1);
+				if(songlist.size()==1)
+					{System.out.println("true");
+					listView.getSelectionModel().select(0);}
+				
 				//WHEN SONG IS DELETED SELECTED CURSOR MOVES UP
 		    	}
           }
@@ -508,47 +521,27 @@ static int editCheck=0;
 	
 	//THIS METHOD DISPLAYS DETAILS OF SELECTED SONG
 	private void selected(Stage mainStage) {  
-
-	      //String item = listView.getSelectionModel().getSelectedItem();
 		int id=  listView.getSelectionModel().getSelectedIndex() ;
 		
-		if(id<0) {
-		//System.out.println("$$$$$$$$$$$$$$$$ : " + id);
-		id=count;
-		//System.out.println("#@$#@$@#$ : " + id);
-		
-		//System.out.println(songdetail[id][0]);
-		//System.out.println(songdetail[id][1]);
-		//System.out.println(songdetail[id][2]);
-		//System.out.println(songdetail[id][3]);		
-		if(songlist.size()>=2)
+		if(id<0) 
 		{
-		obsList2 = FXCollections.observableArrayList(
-				songdetail[id][0],
-				songdetail[id][1],
-				songdetail[id][2],
-				songdetail[id][3]
-				);
-		detail.setItems(obsList2);
-		}		
-		
-		
+		id=count;
+			if(songlist.size()>=2)
+			{
+				obsList2 = FXCollections.observableArrayList(
+						songdetail[id][0],
+						songdetail[id][1],
+						songdetail[id][2],
+						songdetail[id][3]
+						);
+				detail.setItems(obsList2);
+			}		
 		}
 		
 		//If problem then delete ID>0 and also the select one
 		else if(id>=0)
 		{
-			//System.out.println("$ : " + id);
-	
-			//System.out.println(songdetail[id][0]);
-			//System.out.println(songdetail[id][1]);
-			//System.out.println(songdetail[id][2]);
-			//System.out.println(songdetail[id][3]);
-	
-	//THERE'S AN ERROR COMING THROUGH WHEN STAGES ARE CHANGED
-			
-			//obsList2=null;
-			if(songlist.size()>=2)
+			if(songlist.size()>=0) //if(songlist.size()>=2)
 			{
 			obsList2 = FXCollections.observableArrayList(
 					songdetail[id][0],
@@ -561,9 +554,8 @@ static int editCheck=0;
 		}
 		
 		else
-		{System.out.println("$$$$zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz$$$$");}
-		
-		          //System.out.println("not blocking");
+		{
+			//System.out.println("$$$$zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz$$$$");
+		}
 	}
-
 }
