@@ -23,7 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class SampleController {
 	
-	static int check=0;
+	//static int check=0;
 	
     @FXML private Text actiontarget;    
     @FXML TextField p2; 
@@ -194,7 +194,7 @@ public class SampleController {
     // THIS METHOD WORKS WHEN YOU CLICK THE ADD BUTTON
  	@FXML protected void adding(ActionEvent event) 
     {
-    	check++;
+    	//check++;
     	p1.setVisible(true);
     	p2.setVisible(true);
     	p3.setVisible(true);
@@ -203,7 +203,7 @@ public class SampleController {
     	System.out.println(count + " " + songlist);
     }
 
-static int editCheck=0;	
+//static int editCheck=0;	
 
 
 ////////#############################################################
@@ -256,14 +256,6 @@ static int editCheck=0;
     }
 	
 	
-////////#############################################################
-//////// DONT REALLY NEED THIS	
-    public void errorhandlerfordelete(Stage mainStage)
-    {
-    	// this.mainStage = mainStage;
-    	mainStage = secondaryStage;
-    }
- 
 ////////#############################################################
 ////////  
     
@@ -437,12 +429,9 @@ static int editCheck=0;
         		}
         		index++;
         	}
-           //	System.out.println(songdetail[id][0] + " : " +
-        	//		songdetail[id][1] + " : " + songdetail[id][2] + " : " + songdetail[id][3]);	
         	index = 0;
             rp2.close();
         }
-        //rp2.close();
         readerPlaylist.close();
         count = songlist.size(); // THIS IS FOR WHEN THE LIST IS READ AND INDEX COUNT IS SET
     }
@@ -470,7 +459,6 @@ static int editCheck=0;
     	
     	fileWriter = new FileWriter(file, false );  
         bufferedWriter = new BufferedWriter(fileWriter);
-      
 
 		obsList2 = FXCollections.observableArrayList(
 				"Name of the song",
@@ -488,6 +476,7 @@ static int editCheck=0;
 	    updater(mainStage);
 	    
 	    //To terminate the application correctly
+	    //NOTE : playlist saves when you close
 	    mainStage.setOnCloseRequest(event -> pgmclosed());
 	    
 	    //mainStage.setOnCloseRequest();
