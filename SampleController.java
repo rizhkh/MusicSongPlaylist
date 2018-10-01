@@ -154,7 +154,7 @@ public class SampleController {
 		    		System.out.println("no");
 		    		System.out.println( p1.getText() );
 		    		songlist.add(abc);
-		    		Collections.sort(songlist);
+		    		Collections.sort(songlist,String.CASE_INSENSITIVE_ORDER);
 		    		int id2 = songlist.indexOf(abc);
 		    		addingPositionchange(id2);
 		    		detailadd(abc) ; 
@@ -182,6 +182,10 @@ public class SampleController {
 			//THIS SELECTS THE NEWEST ADDED SONG AND UPDATES THE COUNTER
 			count++;
 	      }     	
+	      p1.clear();
+	      p2.clear();
+	      p3.clear();
+	      p4.clear();
     }
     
   
@@ -221,7 +225,7 @@ public class SampleController {
     	p3.setVisible(true);
     	p4.setVisible(true);
     	addedname(event);
-    	System.out.println(count + " " + songlist);
+    	System.out.println(count + " " + songlist); 
     }
 
 //static int editCheck=0;	
@@ -232,7 +236,10 @@ public class SampleController {
     @FXML protected void editing(ActionEvent event) 
     {
       	l1.setVisible(true);
-
+    	p1.setVisible(true);
+    	p2.setVisible(true);
+    	p3.setVisible(true);
+    	p4.setVisible(true);
     	//System.out.println(listView.getSelectionModel().getSelectedIndex());
 
     	int id = listView.getSelectionModel().getSelectedIndex();
@@ -282,17 +289,6 @@ public class SampleController {
     
     public void datachangeAfterDelete(int id)
     {
-    	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);
-    	/*
-    	for(int i=songlist.size(); i>id; i++)
-    	{
-        	songdetail[id][0] = songdetail[id+1][0];
-        	songdetail[id][1] = songdetail[id+1][1];    	
-        	songdetail[id][2] = songdetail[id+1][2];      	
-        	songdetail[id][2] = songdetail[id+1][2];     		
-    	}
-    	*/
-    	
     	for(int i=id; i<songlist.size(); i++)
     	{
         	songdetail[i][0] = songdetail[i+1][0];
@@ -408,7 +404,7 @@ public class SampleController {
         		{
 	            	songlist.add(abc);
 
-	        		Collections.sort(songlist);
+	        		Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
 	            	first = abc;
 	          		obsList = FXCollections.observableArrayList(songlist);
 	        		listView.setItems(obsList);  
