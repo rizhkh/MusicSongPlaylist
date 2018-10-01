@@ -13,7 +13,8 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import javafx.scene.control.TextField;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
+import javafx.scene.text.Text;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 public class SampleController {
+	
+	// NOTE: PROBLEM - WHEN YOU ADD AB-AB AND AB-AB AGAIN IT ADDS IT SHOULDNT
 	
 	//static int check=0;
 	
@@ -91,53 +94,71 @@ public class SampleController {
     	
     	if(!abc.isEmpty())
     	{
-    		if( songlist.contains(p1.getText()) )
-    		{
-    			System.out.println("yes");
-    			int idforcheck = songlist.indexOf(p1.getText());
-    			boolean check=false;
-    			
-    			String a = songdetail[idforcheck][1];
-    			String b = p2.getText();
-    			if( a.equals(b) )//a==b )
-    			{
-    				System.out.println("yesyes");
-    				check=true;
-    			}
 
-    			if(check==true)
-    			{
-    				System.out.println("true2");
-    			      Alert alert = new Alert(AlertType.INFORMATION);
-    			 	      alert.setTitle("Already exist");
-    			 	      alert.setHeaderText(
-    			 	           "Duplicate found.Can't be added");
-    			          Optional<ButtonType> option = alert.showAndWait();
-    			          
-    			          if (option.get() == ButtonType.OK) 
-    			          {   }  			 	      
-    			}
-    			
-    			else
-    			{
-    	    		songlist.add(abc);
-    	    		Collections.sort(songlist);
-    	    		int id2 = songlist.indexOf(abc);
-    	    		addingPositionchange(id2);
-    	    		detailadd(abc) ; 	
-    			}
-    		}
+    		int idforcheck1 = songlist.indexOf(p1.getText());
+    		//System.out.println("P1 " + p1.getText());
+    		//System.out.println("P2 " + p2.getText());
+    		//System.out.println("Passed string " + abc);
+     		//System.out.println("String in arraylist " + songlist.get(idforcheck1));
+	    		if( songlist.contains(abc) )
+	    		{
+	    			System.out.println("yes");
+	    			/*
+	    			int idforcheck = songlist.indexOf(p1.getText());
+	    			String artistname = songlist.get(idforcheck);
+	    			
+	    			boolean check=false;
+	    			
+	    			String a = songdetail[idforcheck][1];
+	    			System.out.println(a);
+	    			String b = p2.getText();
+	    			
+	    			if(p2.getText()==null & abc.equals(artistname))
+	    			{
+	    				System.out.println("\n\n\n %%%%%%%%%%%% \n\n\n");
+	    			}
+	    			
+	    			if( a.equals(b) )//a==b )
+	    			{
+	    				System.out.println("yesyes");
+	    				check=true;
+	    			}
+	
+	    			if(check==true)
+	    			
+	    			{
+	    			*/
+	    				System.out.println("true2");
+	    			      Alert alert = new Alert(AlertType.INFORMATION);
+	    			 	      alert.setTitle("Already exist");
+	    			 	      alert.setHeaderText(
+	    			 	           "Duplicate found.Can't be added");
+	    			          Optional<ButtonType> option = alert.showAndWait();
+	    			          
+	    			          if (option.get() == ButtonType.OK) 
+	    			          {   }  			 	      
+	    		/*	}
+	    			
+	    			else
+	    			{
+	    	    		songlist.add(abc);
+	    	    		Collections.sort(songlist);
+	    	    		int id2 = songlist.indexOf(abc);
+	    	    		addingPositionchange(id2);
+	    	    		detailadd(abc) ; 	
+	    			}*/
+	    		}
     		
-    		else
-    		{
-	    		System.out.println("no");
-	    		System.out.println( p1.getText() );
-	    		songlist.add(abc);
-	    		Collections.sort(songlist);
-	    		int id2 = songlist.indexOf(abc);
-	    		addingPositionchange(id2);
-	    		detailadd(abc) ; 
-    		}
+	    		else
+	    		{
+		    		System.out.println("no");
+		    		System.out.println( p1.getText() );
+		    		songlist.add(abc);
+		    		Collections.sort(songlist);
+		    		int id2 = songlist.indexOf(abc);
+		    		addingPositionchange(id2);
+		    		detailadd(abc) ; 
+	    		}
     		
     		/*
        		songlist.add(abc);
