@@ -1,7 +1,6 @@
-package application;
+package songlibview;
 
 import javafx.event.ActionEvent;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Scanner;
-
 import javafx.scene.text.Text;
 //import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import javafx.collections.FXCollections;
@@ -81,45 +79,113 @@ public class SampleController {
 		
     }
 	
+    public void checksame()
+    {
+    	String a = p1.getText();
+    	String b = p2.getText();
+    	
+    	a=a.toLowerCase();
+    	b=b.toLowerCase();
+    	
+		if( songlist.contains(a) )
+		{
+			//System.out.println("yes");
+				//System.out.println("true2");
+				songlibstuff.settingAlert();
+		}	
+    	
+    	
+    }
 	
     @FXML
     private void addedname(ActionEvent event)
     {
+    	checkcount++;
     	String abc =  p1.getText();
     	String artist = p2.getText();
+    	int p=0;
     	
-    	if( !abc.isEmpty() )
+    	if( !abc.isEmpty() &&  !artist.isEmpty() )
     	{
     	abc = p1.getText() + "-" + p2.getText();
     	}
+    	
+    	if( p2.getText().isEmpty() && checkcount>2 )
+    	{
+    	//abc = p1.getText() + "-" + p2.getText();
+    		songlibstuff.enterInfoError();
+    	}
+    	
+    	if( p1.getText().isEmpty() && checkcount>2 )
+    	{
+    	//abc = p1.getText() + "-" + p2.getText();
+    		songlibstuff.enterInfoError2();
+    	}   
     	
     	if( !abc.isEmpty() && artist.isEmpty() )
     	{
     	abc = p1.getText();
     	}    	
     	
-    	if(!abc.isEmpty())
+    	if(!abc.isEmpty() && !p2.getText().isEmpty() )
     	{
-
+    		
     		int idforcheck1 = songlist.indexOf(p1.getText());
 
 	    		if( songlist.contains(abc) )
 	    		{
-	    			System.out.println("yes");
-
-	    				System.out.println("true2");
+	    			int d = songlist.indexOf(abc);
+	    			if(songlist.get(d).toLowerCase().equals(abc.toLowerCase()))
+	    			{
+	    				
+	    			}
+	    			//System.out.println("yes");
+	    				//System.out.println("true2");
 	    				songlibstuff.settingAlert();
 	    		}
+
     		
 	    		else
 	    		{
-		    		System.out.println("no");
-		    		System.out.println( p1.getText() );
-		    		songlist.add(abc);
-		    		Collections.sort(songlist,String.CASE_INSENSITIVE_ORDER);
-		    		int id2 = songlist.indexOf(abc);
-		    		addingPositionchange(id2);
-		    		detailadd(abc) ; 
+	    			
+	    			if( !songlist.contains(abc) )
+		    		{
+			    			boolean check11 = false;
+			    			for(int i=0; i<songlist.size(); i++)
+			    			{
+				    			//int d = songlist.indexOf(abc);
+				    			String wordinthelist = songlist.get(i);
+				    			if(wordinthelist.toLowerCase().equals(abc.toLowerCase()))
+				    			{
+				    				//if in here, CONFLICT
+				    				check11=true;
+				    				break;
+				    			}
+				    			
+			    			}
+			    			
+			    			if(check11) 
+			    			{
+			    				songlibstuff.settingAlert();
+			    			}
+			    			else {
+			    				p=1;
+			    			}
+		    			}
+	    			
+		    			if(p==1)
+		    			{
+		    				p=0;
+		    				System.out.println("in here");
+			    			p=0;
+				    		System.out.println("no");
+				    		System.out.println( p1.getText() );
+				    		songlist.add(abc);
+				    		Collections.sort(songlist,String.CASE_INSENSITIVE_ORDER);
+				    		int id2 = songlist.indexOf(abc);
+				    		addingPositionchange(id2);
+				    		detailadd(abc) ; 
+		    			}
 	    		}
     		
     	}
@@ -166,7 +232,7 @@ public class SampleController {
 		detail.setItems(obsList2);    	
 	}
 
-	
+	static int checkcount=0;
 ////////#############################################################
 ////////
     //WHEN YOU PRESS THE ADD BUTTON YOU GET AN ALERT
@@ -175,7 +241,7 @@ public class SampleController {
  	@FXML protected void adding(ActionEvent event) 
     {
     	//check++;
-
+ 		checkcount++;
  		p1.setVisible(true);
     	p2.setVisible(true);
     	p3.setVisible(true);
@@ -218,8 +284,13 @@ public class SampleController {
           if (option.get() == ButtonType.OK) 
           {     
         	  int idForTheCheck = songlist.indexOf(p1.getText());
-              if( songlist.contains(p1.getText()))// && songdetail[idForTheCheck][1]==p2.getText() )
-            	  songlibstuff.settingAlert();
+              if( songlist.contains(p1.getText())) // && songdetail[idForTheCheck][1]==p2.getText() )
+              {  songlibstuff.settingAlert();}
+              
+              else if( p1.getText().isEmpty() || p2.getText().isEmpty()  )
+              {
+		    		songlibstuff.enterInfoError();  
+              }
               
               else
               {
@@ -242,7 +313,9 @@ public class SampleController {
 				if(p2.getText().isEmpty())
 				{
 					
-					songdetail[id][1]="";
+					//songdetail[id][1]="";
+		    		songlibstuff.enterInfoError();
+		    		
 				}				
 				
 				if(!p3.getText().isEmpty())
