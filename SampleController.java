@@ -182,7 +182,7 @@ public class SampleController {
     	p4.setVisible(true);
 
     	addedname(event);
-    	System.out.println(count + " " + songlist); 
+    	//System.out.println(count + " " + songlist); 
     }
 
 //static int editCheck=0;	
@@ -217,8 +217,8 @@ public class SampleController {
           
           if (option.get() == ButtonType.OK) 
           {     
-        	  
-              if( songlist.contains(p1.getText()) )
+        	  int idForTheCheck = songlist.indexOf(p1.getText());
+              if( songlist.contains(p1.getText()))// && songdetail[idForTheCheck][1]==p2.getText() )
             	  songlibstuff.settingAlert();
               
               else
@@ -229,7 +229,7 @@ public class SampleController {
 		    	int idafteredit = songlist.indexOf(abc);
 
 		    	songdetail[id][0]=abc;
-		    	System.out.println(songlist);
+		    	//System.out.println(songlist);
 		  		//obsList = FXCollections.observableArrayList(songlist);
 				//listView.setItems(obsList); 
 				
