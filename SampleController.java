@@ -277,14 +277,14 @@ public class SampleController {
           alert.setHeaderText("Are you sure want to edit this song?");
 
           Optional<ButtonType> option = alert.showAndWait();
-          String abc = "";
+          String abc = p1.getText() + "-" + p2.getText();
           String firstW = p1.getText();
           
           
           if (option.get() == ButtonType.OK) 
           {     
         	  int idForTheCheck = songlist.indexOf(p1.getText());
-              if( songlist.contains(p1.getText())) // && songdetail[idForTheCheck][1]==p2.getText() )
+              if( songlist.contains(abc)) // && songdetail[idForTheCheck][1]==p2.getText() )
               {  songlibstuff.settingAlert();}
               
               else if( p1.getText().isEmpty() || p2.getText().isEmpty()  )
@@ -294,7 +294,36 @@ public class SampleController {
               
               else
               {
-        	   	abc = p1.getText();
+            		int p=0;
+            	  if( !songlist.contains(abc) )
+		    		{
+			    			boolean check11 = false;
+			    		
+			    			for(int i=0; i<songlist.size(); i++)
+			    			{
+				    			//int d = songlist.indexOf(abc);
+				    			String wordinthelist = songlist.get(i);
+				    			if(wordinthelist.toLowerCase().equals(abc.toLowerCase()))
+				    			{
+				    				//if in here, CONFLICT
+				    				check11=true;
+				    				break;
+				    			}
+				    			
+			    			}
+			    			
+			    			if(check11) 
+			    			{
+			    				songlibstuff.settingAlert();
+			    			}
+			    			else {
+			    				p=1;
+			    			}
+		    		}
+            	  if(p==1)
+            	  {
+p=0;
+        	   	abc = p1.getText() + "-" + p2.getText();
 		    	songlist.set(id, abc);
         		Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
 		    	int idafteredit = songlist.indexOf(abc);
@@ -395,7 +424,7 @@ public class SampleController {
 					songdetail[idafteredit][3] = p4.getText();
 		    	}		    	
 		    	
-					
+            	  }
           	}
           //end of else
           }
@@ -416,11 +445,7 @@ public class SampleController {
 		listView.setItems(obsList); 
 
 		listView.getSelectionModel().select(id);		
-    	for(int i=0; i<12 ;i++)
-    	{
-    		System.out.print(songdetail[i][0] + " , " );
-   				
-    	}
+
 		
     }
     
@@ -438,11 +463,7 @@ public class SampleController {
     			songdetail[i][2] = songdetail[i+1][2];
     			songdetail[i][3] = songdetail[i+1][3];
     		}
-    		for(int i=0 ; i<9 ; i++)
-    		{
-    			System.out.print("*" + songdetail[i+1][0]);
-    		}
-    		System.out.println(songlist);
+
     	}
     	//datachangeAfterDelete(d);
     }
@@ -491,15 +512,14 @@ public class SampleController {
 		    	{
 		    	songlist.remove(del);
 		    	datachangeAfterDelete(del);
-		    	System.out.println(songlist);
 		    	//THIS PART UPDATES THE LIST VIEW
 		  		obsList = FXCollections.observableArrayList(songlist);
 				listView.setItems(obsList);    
 				count--;
 				listView.getSelectionModel().select(del-1);
 				if(songlist.size()==1)
-					{System.out.println("true");
-					listView.getSelectionModel().select(0);}
+					{
+										listView.getSelectionModel().select(0);}
 				
 				//WHEN SONG IS DELETED SELECTED CURSOR MOVES UP
 		    	}
