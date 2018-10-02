@@ -8,11 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Scanner;
 
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 //import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import javafx.collections.FXCollections;
@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import stwolib.songlibstuff;
 
 public class SampleController {
 	
@@ -41,13 +42,13 @@ public class SampleController {
 	static 	FileWriter fileWriter ;  
 	static   BufferedWriter bufferedWriter;
 	
-	private ObservableList<String> obsList;
-	private ObservableList<String> obsList2;
+	static public ObservableList<String> obsList;
+	static public  ObservableList<String> obsList2;
 	int[][] code = new int[50][4];
 
-	ArrayList<String> songlist = new ArrayList<String>();
+	static ArrayList<String> songlist = new ArrayList<String>();
 	//HashMap<Integer, String> songdetail = new HashMap<>(); // Integer is the index of the name
-	String[][] songdetail = new String [100][5];
+	static String[][] songdetail = new String [100][5];
 
 	public Stage secondaryStage;
 	
@@ -60,9 +61,13 @@ public class SampleController {
 	
 	//This method moves the array indexes to the right spots 
 	
+	
     public void addingPositionchange(int id)
     {
-
+    	
+    	//songlibstuff.addingPositionchange2(id);
+    	
+    	//songlibstuff.hello(id);
     	for(int i=count; i>=id; i--)
     	{
     		songdetail[i+1][0] = songdetail[i][0];
@@ -73,6 +78,7 @@ public class SampleController {
     	
   		obsList = FXCollections.observableArrayList(songlist);
 		listView.setItems(obsList);  	 	
+		
     }
 	
 	
@@ -96,57 +102,13 @@ public class SampleController {
     	{
 
     		int idforcheck1 = songlist.indexOf(p1.getText());
-    		//System.out.println("P1 " + p1.getText());
-    		//System.out.println("P2 " + p2.getText());
-    		//System.out.println("Passed string " + abc);
-     		//System.out.println("String in arraylist " + songlist.get(idforcheck1));
+
 	    		if( songlist.contains(abc) )
 	    		{
 	    			System.out.println("yes");
-	    			/*
-	    			int idforcheck = songlist.indexOf(p1.getText());
-	    			String artistname = songlist.get(idforcheck);
-	    			
-	    			boolean check=false;
-	    			
-	    			String a = songdetail[idforcheck][1];
-	    			System.out.println(a);
-	    			String b = p2.getText();
-	    			
-	    			if(p2.getText()==null & abc.equals(artistname))
-	    			{
-	    				System.out.println("\n\n\n %%%%%%%%%%%% \n\n\n");
-	    			}
-	    			
-	    			if( a.equals(b) )//a==b )
-	    			{
-	    				System.out.println("yesyes");
-	    				check=true;
-	    			}
-	
-	    			if(check==true)
-	    			
-	    			{
-	    			*/
+
 	    				System.out.println("true2");
-	    			      Alert alert = new Alert(AlertType.INFORMATION);
-	    			 	      alert.setTitle("Already exist");
-	    			 	      alert.setHeaderText(
-	    			 	           "Duplicate found.Can't be added");
-	    			          Optional<ButtonType> option = alert.showAndWait();
-	    			          
-	    			          if (option.get() == ButtonType.OK) 
-	    			          {   }  			 	      
-	    		/*	}
-	    			
-	    			else
-	    			{
-	    	    		songlist.add(abc);
-	    	    		Collections.sort(songlist);
-	    	    		int id2 = songlist.indexOf(abc);
-	    	    		addingPositionchange(id2);
-	    	    		detailadd(abc) ; 	
-	    			}*/
+	    				songlibstuff.settingAlert();
 	    		}
     		
 	    		else
@@ -160,13 +122,6 @@ public class SampleController {
 		    		detailadd(abc) ; 
 	    		}
     		
-    		/*
-       		songlist.add(abc);
-    		Collections.sort(songlist);
-    		int id2 = songlist.indexOf(abc);
-    		addingPositionchange(id2);
-    		detailadd(abc) ; 
-    		 */
     	}
 	      if (!abc.isEmpty()) 
 	      { 
@@ -220,10 +175,12 @@ public class SampleController {
  	@FXML protected void adding(ActionEvent event) 
     {
     	//check++;
-    	p1.setVisible(true);
+
+ 		p1.setVisible(true);
     	p2.setVisible(true);
     	p3.setVisible(true);
     	p4.setVisible(true);
+
     	addedname(event);
     	System.out.println(count + " " + songlist); 
     }
@@ -235,11 +192,14 @@ public class SampleController {
 ////////
     @FXML protected void editing(ActionEvent event) 
     {
+	      Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
       	l1.setVisible(true);
     	p1.setVisible(true);
     	p2.setVisible(true);
     	p3.setVisible(true);
     	p4.setVisible(true);
+    	
+
     	//System.out.println(listView.getSelectionModel().getSelectedIndex());
 
     	int id = listView.getSelectionModel().getSelectedIndex();
@@ -252,40 +212,182 @@ public class SampleController {
 
           Optional<ButtonType> option = alert.showAndWait();
           String abc = "";
+          String firstW = p1.getText();
+          
+          
           if (option.get() == ButtonType.OK) 
-          {     	
-	    	abc = p1.getText();
-	    	System.out.println(abc);
-	    	songlist.set(id, abc);
-	    	songdetail[id][0]=abc;
-	    	System.out.println(songlist);
-	  		obsList = FXCollections.observableArrayList(songlist);
-			listView.setItems(obsList); 
-			
-			if(!p2.getText().isEmpty())
-			{
-				abc = p2.getText();
-				songdetail[id][1]=abc;
-			}
-			
-			if(!p3.getText().isEmpty())
-			{
-				abc = p3.getText();
-				songdetail[id][2]=abc;
-			}			
+          {     
+        	  
+              if( songlist.contains(p1.getText()) )
+            	  songlibstuff.settingAlert();
+              
+              else
+              {
+        	   	abc = p1.getText();
+		    	songlist.set(id, abc);
+        		Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
+		    	int idafteredit = songlist.indexOf(abc);
 
-			if(!p4.getText().isEmpty())
-			{
-				abc = p4.getText();
-				songdetail[id][3]=abc;
-			}					
+		    	songdetail[id][0]=abc;
+		    	System.out.println(songlist);
+		  		//obsList = FXCollections.observableArrayList(songlist);
+				//listView.setItems(obsList); 
+				
+				if(!p2.getText().isEmpty())
+				{
+					abc = p2.getText();
+					songdetail[id][1]=abc;
+				}
+				
+				if(p2.getText().isEmpty())
+				{
+					
+					songdetail[id][1]="";
+				}				
+				
+				if(!p3.getText().isEmpty())
+				{
+					abc = p3.getText();
+					songdetail[id][2]=abc;
+				}	
+				
+				if(p3.getText().isEmpty())
+				{
+					songdetail[id][2]="";
+				}			
+				
+				if(!p4.getText().isEmpty())
+				{
+					abc = p4.getText();
+					songdetail[id][3]=abc;
+				}	
+				
+				if(p4.getText().isEmpty())
+				{
+					//abc = p4.getText();
+					songdetail[id][3]= "";
+				}
+				
+			      Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
+				    obsList = FXCollections.observableArrayList(songlist);
+					listView.setItems(obsList); 
+					
+				
+		    	if(idafteredit<id)
+		    	{
+		    		//THIS FORLOOP COPIES ONE VALUE+ TO THE NEXT INDEX 
+		    		//LEAVING THE SORTED PLACE WHERE THE EDITED PART GOES
+		    		// THE STATEMENTS OUTSIDE OF THE FORLOOP BASICALLY 
+		    		//TAKES CARE OF THE POSITIONS THAT ARE NOT TAKEN CARE OF
+			    	for(int i=id-1; i>idafteredit ;i--)
+			    	{
+			    		
+		    			songdetail[i+1][0] = songdetail[i][0];
+		    			songdetail[i+1][1] = songdetail[i][1];
+		    			songdetail[i+1][2] = songdetail[i][2];
+		    			songdetail[i+1][3] = songdetail[i][3];
+		    			System.out.print(songdetail[i][0] + " ");
+			    	}
+			    	songdetail[idafteredit+1][0] = songdetail[idafteredit][0];
+			    	songdetail[idafteredit+1][1] = songdetail[idafteredit][1];
+			    	songdetail[idafteredit+1][2] = songdetail[idafteredit][2];
+			    	songdetail[idafteredit+1][3] = songdetail[idafteredit][3];	
+					songdetail[idafteredit][0] = p1.getText();
+					songdetail[idafteredit][1] = p2.getText();
+					songdetail[idafteredit][2] = p3.getText();
+					songdetail[idafteredit][3] = p4.getText();
+		    	}
+		    	
+		    	if(idafteredit>id)
+		    	{
+		    		//THIS FORLOOP COPIES ONE VALUE+ TO THE NEXT INDEX 
+		    		//LEAVING THE SORTED PLACE WHERE THE EDITED PART GOES
+		    		// THE STATEMENTS OUTSIDE OF THE FORLOOP BASICALLY 
+		    		//TAKES CARE OF THE POSITIONS THAT ARE NOT TAKEN CARE OF
+			    	for(int i=id; i<idafteredit ;i++)
+			    	{
+			    		
+		    			songdetail[i-1][0] = songdetail[i][0];
+		    			songdetail[i-1][1] = songdetail[i][1];
+		    			songdetail[i-1][2] = songdetail[i][2];
+		    			songdetail[i-1][3] = songdetail[i][3];
+			    	}
+			    	songdetail[idafteredit-1][0] = songdetail[idafteredit][0];
+			    	songdetail[idafteredit-1][1] = songdetail[idafteredit][1];
+			    	songdetail[idafteredit-1][2] = songdetail[idafteredit][2];
+			    	songdetail[idafteredit-1][3] = songdetail[idafteredit][3];	
+					songdetail[idafteredit][0] = p1.getText();
+					songdetail[idafteredit][1] = p2.getText();
+					songdetail[idafteredit][2] = p3.getText();
+					songdetail[idafteredit][3] = p4.getText();
+		    	}		    	
+		    	
+					
+          	}
+          //end of else
           }
+          
     	}
+
+
+	      p1.clear();
+	      p2.clear();
+	      p3.clear();
+	      p4.clear();
+	      
+
+	      Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
+
+
+	    obsList = FXCollections.observableArrayList(songlist);
+		listView.setItems(obsList); 
+
+		listView.getSelectionModel().select(id);		
+    	for(int i=0; i<12 ;i++)
+    	{
+    		System.out.print(songdetail[i][0] + " , " );
+   				
+    	}
+		
+    }
+    
+    public void changeAfterEdit(String wored,int idbefore,int idafteredit)
+    {
+    	
+    	//int idafteredit = songlist.indexOf(wored);
+    	
+    	if(idafteredit<idbefore)
+    	{
+    		for(int i=idafteredit ; i<=idbefore ; i++)
+    		{
+    			songdetail[i][0] = songdetail[i+1][0];
+    			songdetail[i][1] = songdetail[i+1][1];
+    			songdetail[i][2] = songdetail[i+1][2];
+    			songdetail[i][3] = songdetail[i+1][3];
+    		}
+    		for(int i=0 ; i<9 ; i++)
+    		{
+    			System.out.print("*" + songdetail[i+1][0]);
+    		}
+    		System.out.println(songlist);
+    	}
+    	//datachangeAfterDelete(d);
     }
 	
 	
 ////////#############################################################
 ////////  
+ 
+    public void datachangeAfterEdit(int id)
+    {
+    	for(int i=id; i<songlist.size(); i++)
+    	{
+        	songdetail[i+1][0] = songdetail[i][0];
+        	songdetail[i+1][1] = songdetail[i][1];    	
+        	songdetail[i+1][2] = songdetail[i][2];      	
+        	songdetail[i+1][2] = songdetail[i][2];     		
+    	}
+    }    
     
     public void datachangeAfterDelete(int id)
     {
@@ -296,20 +398,19 @@ public class SampleController {
         	songdetail[i][2] = songdetail[i+1][2];      	
         	songdetail[i][2] = songdetail[i+1][2];     		
     	}
-
-    	//System.out.println("datachangeAfterDelet : " +  songdetail[id][0]);    	
     }
     
     
     @FXML protected void deleting(ActionEvent event) 
     {
-    	  Alert alert = new Alert(AlertType.CONFIRMATION);
-          alert.setTitle("Remove");
-          alert.setHeaderText("Are you sure want to delete this song?");
-
-          Optional<ButtonType> option = alert.showAndWait();
+    	  Alert alert;//= new Alert(AlertType.CONFIRMATION);
+          //alert.setTitle("Remove");
+          //alert.setHeaderText("Are you sure want to delete this song?");
+    	int confirmDel = songlibstuff.settingAlertDel();
+    	
+          //Optional<ButtonType> option = alert.showAndWait();
           
-          if (option.get() == ButtonType.OK) 
+          if (confirmDel == 1) 
           { 	
 		    	int del = listView.getSelectionModel().getSelectedIndex();
 		    	
@@ -331,7 +432,7 @@ public class SampleController {
 		    	}
           }
           
-          else if (option.get() == ButtonType.CANCEL) 
+          else if (confirmDel ==  0) 
           {}
     }    
   
@@ -486,8 +587,6 @@ public class SampleController {
 		detail.setItems(obsList);
 		detail.setItems(obsList2);
 		
-		//if(count>0) //items in the arraylist that will be shown in the listview
-		//{
 	    listView.getSelectionModel().select(0); 
 	    
 	    updater(mainStage);
