@@ -1,3 +1,4 @@
+
 package songlibview;
 
 import javafx.event.ActionEvent;
@@ -333,7 +334,7 @@ public class SampleController {
 		    		}
             	  if(p==1)
             	  {
-p=0;
+            		  p=0;
         	   	abc = p1.getText() + "-" + p2.getText();
 		    	songlist.set(id, abc);
         		Collections.sort(songlist, String.CASE_INSENSITIVE_ORDER);
@@ -400,7 +401,7 @@ p=0;
 		    			songdetail[i+1][1] = songdetail[i][1];
 		    			songdetail[i+1][2] = songdetail[i][2];
 		    			songdetail[i+1][3] = songdetail[i][3];
-		    			System.out.print(songdetail[i][0] + " ");
+
 			    	}
 			    	songdetail[idafteredit+1][0] = songdetail[idafteredit][0];
 			    	songdetail[idafteredit+1][1] = songdetail[idafteredit][1];
@@ -426,10 +427,10 @@ p=0;
 				    		{}
 				    		else
 				    		{
-			    			songdetail[i-1][0] = songdetail[i][0];
-			    			songdetail[i-1][1] = songdetail[i][1];
-			    			songdetail[i-1][2] = songdetail[i][2];
-			    			songdetail[i-1][3] = songdetail[i][3];
+				    			songdetail[i-1][0] = songdetail[i][0];
+				    			songdetail[i-1][1] = songdetail[i][1];
+				    			songdetail[i-1][2] = songdetail[i][2];
+				    			songdetail[i-1][3] = songdetail[i][3];
 				    		}
 				    	}
 				    	songdetail[idafteredit-1][0] = songdetail[idafteredit][0];
@@ -490,9 +491,6 @@ p=0;
     
     public void changeAfterEdit(String wored,int idbefore,int idafteredit)
     {
-    	
-    	//int idafteredit = songlist.indexOf(wored);
-    	
     	if(idafteredit<idbefore)
     	{
     		for(int i=idafteredit ; i<=idbefore ; i++)
@@ -546,7 +544,7 @@ p=0;
           if (confirmDel == 1) 
           { 	
 		    	int del = listView.getSelectionModel().getSelectedIndex();
-		    	System.out.println(del);
+
 		    	int sized = listView.getItems().size();
 		    	
 		    	if(del>=0)
@@ -600,30 +598,8 @@ p=0;
     		}	
     		i++;
     	}
-    	
-    	
     }
     
-   /* 
-    public void makeaplaylist(BufferedWriter bufferedWriter,String abc) throws IOException
-    {
-    	//fileWriter = new FileWriter("stuff2.txt", true );  
-        //bufferedWriter = new BufferedWriter(fileWriter);
-    	System.out.println("INSIDE makeaplaylist()");
-    	try {
-        	bufferedWriter.write(abc + ":" + p2.getText() 
-        	+ ":" + p3.getText() + ":" + p4.getText()
-        	); //THIS STORES INFO IN DATA FILES AS 'DATA:DATA:DATA:DATA'
-			bufferedWriter.newLine();
-			System.out.println("should be there" + abc);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}	
-    	//bufferedWriter.close();
-    	//fileWriter.close();
-    }
-   */
     
 ////////#############################################################
 ////////    
@@ -728,6 +704,7 @@ p=0;
 		detail.setItems(obsList);
 		detail.setItems(obsList2);
 		
+		
 	    listView.getSelectionModel().select(0); 
 	    
 	    updater(mainStage);
@@ -801,7 +778,6 @@ p=0;
 		
 		else
 		{
-			//System.out.println("$$$$zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz$$$$");
 		}
 	}
 }
