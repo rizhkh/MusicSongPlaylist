@@ -1,9 +1,3 @@
-// PROJECT BY: AHMED GHONEIM(asg179) & MUHAMMAD RIZWAN KHAN(mrk150)
-// PROJECT 1 - PLAYLIST
-// CS213
-
-
-
 package application;
 	
 import javafx.application.Application;
